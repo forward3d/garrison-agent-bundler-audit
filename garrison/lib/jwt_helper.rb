@@ -7,7 +7,7 @@ module Garrison
       private_key = OpenSSL::PKey::RSA.new(private_pem)
       payload = {
         iat: Time.now.to_i, # Issued at time.
-        exp: Time.now.to_i + (10 * 60), # JWT expiration time.
+        exp: Time.now.to_i + (9 * 60), # JWT expiration time.
         iss: github_app_id.to_i # Integration's GitHub identifier.
       }
       JWT.encode(payload, private_key, 'RS256')
