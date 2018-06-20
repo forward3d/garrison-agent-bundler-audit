@@ -1,6 +1,7 @@
 require 'bundler'
 Bundler.require(:default)
 ROOT = File.dirname(__FILE__)
+require 'tmpdir'
 
 Dir[File.join(ROOT, 'garrison/lib/*.rb')].each do |file|
   require file
