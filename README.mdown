@@ -7,15 +7,15 @@ This is a part of the [Garrison](https://github.com/forward3d/garrison) security
 
 | Function Name | Description  |
 | ------------- | ------------- |
-| `check_bundle_audit` | Alerts for any CVEs found for a particular Ruby app. |
+| `check_bundle_audit` | Alerts for any CVEs found within an Github organizations Ruby projects. |
 
 
 ### Installation & Example
 
 Docker Hub - https://hub.docker.com/r/forward3d/garrison-agent-bundler-audit/
 
-    docker pull forward3d/garrison-agent-cve-details
-    docker run --rm -e "GARRISON_URL=https://garrison.internal.acme.com" -e "GARRISON_CVE_VENDOR_ID=7252" -e "GARRISON_CVE_VENDOR_NAME=ruby" -e "GARRISON_CVE_PRODUCT_IDS=12215" -e "GARRISON_CVE_PRODUCT_NAME=ruby" forward3d/garrison-agent-cve-details check_cve_details
+    docker pull forward3d/garrison-agent-bundler-audit
+    docker run --rm -e "GARRISON_URL=https://garrison.internal.acme.com" -e "GARRISON_GITHUB_PRIVATE_KEY_BASE64=<base64 encoded private key>" -e "GARRISON_GITHUB_APP_ID=123456" forward3d/garrison-agent-bundler-audit check_bundle_audit
 
 ### Agent Specific Configuration
 
@@ -25,18 +25,4 @@ These are additional specific configuration options for this agent. [Global agen
 | ------------- | ------------- |
 | `GARRISON_GITHUB_PRIVATE_KEY_BASE64` | Github App Private Key Base64 Encoded |
 | `GARRISON_GITHUB_APP_ID` | Github App ID |
-
-### Check Specific Configuration
-
-Some checks provided by this agent have extra configuration options.
-
-#### `check_cve_details`
-
-| Environmental Variable | Note |
-| ------------- | ------------- |
-| `GARRISON_CVE_VENDOR_ID` | Vendor ID you want to search for |
-| `GARRISON_CVE_VENDOR_NAME` | Vendor name to show on the alert |
-| `GARRISON_CVE_PRODUCT_IDS` | Product IDs you want to search for |
-| `GARRISON_CVE_PRODUCT_NAME` | Product name to show on the alert, this is so you can group them up under one name, as sometimes you may have multiple product IDs for the same thing, eg. Cisco ASAs have a hardware product ID, and a firmware product ID |
-
-If you don't specify `GARRISON_CVE_PRODUCT_IDS` and `GARRISON_CVE_PRODUCT_NAME` then it will pull CVEs from all the vendor products.
+| `GARRISON_GITHUB_EXCLUDE_REPOS` | Comma separated list of repositories you want to exclude eg. `forward3d/repo,forward/another-repo` |
