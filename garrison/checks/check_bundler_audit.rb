@@ -25,37 +25,21 @@ module Garrison
             Logging.info "Logging into installation '#{installation.account.login}'"
             token = client.create_app_installation_access_token(installation.id)
             org = Octokit::Client.new(access_token: token.token)
-            repositories = org.list_app_installation_repositories[:repositories]
-            Logging.info "Found #{repositories.count} repositories"
-            repositories.reject! { |repo| options[:github_exclude_repositories].include?(repo.full_name) } if options[:github_exclude_repositories]
-            Logging.info "Found #{repositories.count} repositories after exclusions"
+            results = org.search_code("filename:Gemfile.lock org:#{installation.account.login}")
+            results.items.reject! { |i| options[:github_exclude_repositories].include?(i.repository.full_name) } if options[:github_exclude_repositories]
 
-            repositories.each do |repo|
-
-              Logging.info "#{repo.full_name} - Looking for Gemfile.lock files"
-              begin
-                search = org.search_code("filename:Gemfile.lock repo:#{repo.full_name}")
-                Logging.debug org.rate_limit.inspect
-              rescue Octokit::TooManyRequests
-                Logging.warn "Octokit::TooManyRequests - Sleeping for #{org.rate_limit.resets_in}s"
-                sleep org.rate_limit.resets_in + 1
-                Logging.info 'Retrying request'
-                retry
-              end
-              Logging.info "#{repo.full_name} - #{search[:total_count]} found"
-              next if search[:total_count].zero?
-
-              search[:items].each do |gemfile|
-                Dir.mktmpdir(repo.full_name.tr('/', '-')) do |dir|
-                  begin
-                    gemfile = org.contents(repo.full_name, path: gemfile.path)
-                    File.open(File.join(dir, 'Gemfile.lock'), 'w') { |f| f.write(Base64.decode64(gemfile[:content])) }
-                    Logging.info "#{repo.full_name} - Scanning #{gemfile.path}"
-                    scan_lock_file(repo, dir, gemfile)
-                  rescue Octokit::NotFound
-                    Logging.info "#{repo.full_name} - Skipping - Gemfile.lock not found"
-                    next
-                  end
+            results.items.each do |item|
+              repo = item.repository.full_name
+              Logging.info "#{item.repository.full_name} - #{item.path} found"
+              Dir.mktmpdir(repo.tr('/', '-')) do |dir|
+                begin
+                  gemfile = org.contents(repo, path: item.path)
+                  File.open(File.join(dir, 'Gemfile.lock'), 'w') { |f| f.write(Base64.decode64(gemfile[:content])) }
+                  Logging.info "#{repo} - Scanning #{gemfile.path}"
+                  scan_lock_file(item.repository, dir, gemfile)
+                rescue Octokit::NotFound
+                  Logging.info "#{repo} - Skipping - Gemfile.lock not found"
+                  next
                 end
               end
 
