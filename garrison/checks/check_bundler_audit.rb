@@ -35,6 +35,7 @@ module Garrison
               Logging.info "#{repo.full_name} - Looking for Gemfile.lock files"
               begin
                 search = org.search_code("filename:Gemfile.lock repo:#{repo.full_name}")
+                Logging.debug org.rate_limit.inspect
               rescue Octokit::TooManyRequests
                 Logging.warn "Octokit::TooManyRequests - Sleeping for #{org.rate_limit.resets_in}s"
                 sleep org.rate_limit.resets_in + 1
