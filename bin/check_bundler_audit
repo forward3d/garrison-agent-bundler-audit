@@ -6,5 +6,6 @@ module Garrison
   module Checks
     check = CheckBundlerAudit.new(@options)
     check.perform
+    Api::Alert.obsolete_previous_runs(check.source) if ENV["GARRISON_AUTO_OBSOLETE"]
   end
 end
