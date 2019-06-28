@@ -12,7 +12,8 @@ Dir[File.join(ROOT, 'garrison/checks/*.rb')].each do |file|
 end
 
 Garrison::Api.configure do |config|
-  config.url = ENV['GARRISON_URL']
+  config.url  = ENV['GARRISON_URL']
+  config.uuid = ENV['GARRISON_AGENT_UUID']
 end
 
 Garrison::Logging.info('Garrison Agent - Bundler Audit')
