@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'garrison-api', '~> 1'
+gem 'garrison-api', '~> 2'
 
 gem 'bundler-audit', '~> 0.6.1'
 gem 'jwt', '~> 2.2'

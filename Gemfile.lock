@@ -9,9 +9,9 @@ GEM
     coderay (1.1.2)
     faraday (0.15.4)
       multipart-post (>= 1.2, < 3)
-    garrison-api (1.0.8)
-      httparty (~> 0.16.2)
-    httparty (0.16.4)
+    garrison-api (2.0.0)
+      httparty (>= 0.16.2, < 0.18.0)
+    httparty (0.17.0)
       mime-types (~> 3.0)
       multi_xml (>= 0.5.2)
     jwt (2.2.1)
@@ -37,7 +37,7 @@ PLATFORMS
 
 DEPENDENCIES
   bundler-audit (~> 0.6.1)
-  garrison-api (~> 1)
+  garrison-api (~> 2)
   jwt (~> 2.2)
   octokit (~> 4.14)
   pry
