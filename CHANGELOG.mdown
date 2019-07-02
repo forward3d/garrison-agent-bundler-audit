@@ -1,0 +1,7 @@
+# Changelog
+All notable changes to this project will be documented in this file.
+
+## [1.0.1] - 2019-06-02
+### Changed
+- Support for `garrison-api` rubygem v2
+- Bundler v2
