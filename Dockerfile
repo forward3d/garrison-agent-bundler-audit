@@ -16,6 +16,7 @@ RUN find /usr/local/bundle -iname '*.a' -exec rm {} \;
 # RUNTIME CONTAINER
 FROM ruby:2.6-alpine3.10
 
+RUN apk upgrade --no-cache
 RUN apk add --no-cache git
 RUN gem install bundler -v '~> 2.0'
 

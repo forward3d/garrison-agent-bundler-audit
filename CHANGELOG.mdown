@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.0.2] - 2019-08-09
+### Changed
+- Run `apk upgrade --no-cache` in Dockerfile runtime container
+
 ## [1.0.1] - 2019-06-02
 ### Changed
 - Support for `garrison-api` rubygem v2
