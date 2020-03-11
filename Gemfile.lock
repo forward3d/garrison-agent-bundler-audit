@@ -21,7 +21,7 @@ GEM
     mime-types-data (3.2019.1009)
     multi_xml (0.6.0)
     multipart-post (2.1.1)
-    octokit (4.16.0)
+    octokit (4.17.0)
       faraday (>= 0.9)
       sawyer (~> 0.8.0, >= 0.5.3)
     pry (0.12.2)
@@ -40,7 +40,7 @@ DEPENDENCIES
   bundler-audit (~> 0.6.1)
   garrison-api (~> 2)
   jwt (~> 2.2)
-  octokit (~> 4.16)
+  octokit (~> 4.17)
   pry
 
 BUNDLED WITH
